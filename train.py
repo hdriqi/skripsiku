@@ -7,8 +7,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # Global config variables
 num_steps = 3
+epoch = 40
 day_predict = 2
-data_length = 100
+data_length = 800
 input_dimension = 14
 output_dimension = 2
 batch_size = 128
@@ -84,7 +85,6 @@ def train_network():
         sess.run(tf.global_variables_initializer())
         no_of_batches = int(len(train_input)/batch_size)
         train_loss = 0
-        epoch = 1
         for i in range(epoch):
             step = i + 1
             ptr = 0
