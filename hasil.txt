@@ -1,0 +1,64 @@
+Average Loss 0.67441547
+Best Loss 46 -> 0.5453133
+Worst Loss 58 -> 0.9555232
+
+Average Accuracy 62.93929706017176
+Best Accuracy 46 -> 86.26198172569275
+Worst Accuracy 58 -> 28.434506058692932
+------------------------
+
+Average Loss 0.65924597
+Best Loss 56 -> 0.52191633
+Worst Loss 42 -> 0.88540924
+
+Average Accuracy 65.8785942196846
+Best Accuracy 56 -> 86.58146858215332
+Worst Accuracy 42 -> 32.58785903453827
+------------------------
+
+Average Loss 0.665821
+Best Loss 56 -> 0.4904641
+Worst Loss 22 -> 0.85452175
+
+Average Accuracy 62.012779712677
+Best Accuracy 56 -> 89.4568681716919
+Worst Accuracy 22 -> 31.948882341384888
+------------------------
+
+Average Loss 0.64778715
+Best Loss 54 -> 0.5353708
+Worst Loss 10 -> 0.76827985
+
+Average Accuracy 66.79446309804916
+Best Accuracy 54 -> 86.58146858215332
+Worst Accuracy 10 -> 44.40894424915314
+------------------------
+
+Average Loss 0.67264414
+Best Loss 48 -> 0.5499452
+Worst Loss 50 -> 0.82212603
+
+Average Accuracy 64.02555922667186
+Best Accuracy 48 -> 83.70606899261475
+Worst Accuracy 32 -> 41.5335476398468
+------------------------
+
+
+SET BIAS = 0
+Average Loss 0.67200744
+Best Loss 52 -> 0.5546397
+Worst Loss 18 -> 0.8031084
+
+Average Accuracy 64.20660227537155
+Best Accuracy 52 -> 85.62300205230713
+Worst Accuracy 28 -> 39.93610143661499
+------------------------
+
+Average Loss 0.68175536
+Best Loss 38 -> 0.530144
+Worst Loss 12 -> 0.92708987
+
+Average Accuracy 63.5569754242897
+Best Accuracy 58 -> 85.62300205230713
+Worst Accuracy 54 -> 37.060701847076416
+------------------------
