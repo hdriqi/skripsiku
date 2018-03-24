@@ -37,7 +37,7 @@ def prepare_test_data():
     df_output = pd.read_csv("labels/" + str(days_predict) + "days.csv").as_matrix()
     test_input = []
     test_output = []
-    for i in range(data_length, len(df_norm) - 10):
+    for i in range(data_length, len(df_norm) - num_steps):
         test_input.append(df_norm[i:i+num_steps])
         test_output.append(df_output[i:i+num_steps])
 
@@ -74,7 +74,15 @@ train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(avg_losse
 # train_step = tf.train.RMSPropOptimizer(learning_rate).minimize(avg_losses)
 # train_step = tf.train.AdamOptimizer(learning_rate).minimize(avg_losses)
 
+# GRADIENT CLIPPING
+# optimizer = tf.train.RMSPropOptimizer(learning_rate)
+# gvs = optimizer.compute_gradients(avg_losses)
+# capped_gvs = [(tf.clip_by_value(grad, -1., 1.), var) for grad, var in gvs]
+# train_step = optimizer.apply_gradients(capped_gvs)
+
 correct = tf.equal(tf.argmax(y_last, 1), tf.argmax(prediction, 1))
+recall = tf.metrics.recall(tf.argmax(y_last, 1), tf.argmax(prediction, 1))
+precision = tf.metrics.precision(tf.argmax(y_last, 1), tf.argmax(prediction, 1))
 accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))
 
 def train_network():
@@ -83,11 +91,14 @@ def train_network():
     
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
+        sess.run(tf.local_variables_initializer())
         no_of_batches = int(len(train_input)/batch_size)
         train_loss = []
         train_losses = []
         test_accuracy = []
         test_losses = []
+        test_precision = []
+        test_recall = []
         for i in range(epoch):
             step = i + 1
             ptr = 0
@@ -106,68 +117,82 @@ def train_network():
             train_losses.append(np.mean(train_loss))
             train_loss = []
 
-            rnn_init_weight = np.eye(len(test_input), state_size)
-            accuracy_, correct_, y_last_, prediction_, avg_losses_ = sess.run([accuracy, correct, y_last, prediction, avg_losses], 
+            rnn_init_weight_validation = np.eye(len(test_input), state_size)
+            accuracy_, precision_, recall_, prediction_, avg_losses_ = sess.run([accuracy, precision, recall, prediction, avg_losses], 
                 feed_dict={
                     x: test_input, 
                     y: test_output,
-                    init_state: rnn_init_weight
+                    init_state: rnn_init_weight_validation
                 })
             
             test_losses.append(avg_losses_)
+            test_precision.append(precision_)
+            test_recall.append(recall_)
         # print('Days to predict:', days_predict, 'Epoch:', step, "Hidden Node:", state_size, "Timesteps:", num_steps, "Accuracy", accuracy_ * 100)
-        return accuracy_ * 100, train_losses, test_losses
+        return accuracy_ * 100, train_losses, test_losses, test_precision, test_recall
 
 total_acc = []
 total_train_losses = []
 total_valid_losses = []
 
 # TIMESTEP_LOOP
-for z in range(1):
-    for i in range(1, 2):
-        num_steps = 2 * i + 1
-        # total_acc.append([])
-        total_acc = []
-        total_train_losses = []
-        total_valid_losses = []
-        # DAYS_LOOP
-        for j in range(2, 61, 2):
-            days_predict = j
-            acc, train_loss, val_loss = train_network()
-            total_acc.append(acc)
-            total_train_losses.append(train_loss)
-            total_valid_losses.append(val_loss)
+for i in range(1, 4):
+    num_steps = 2 * i + 1
+    total_acc.append([])
+    total_valid_losses.append([])
+    # DAYS_LOOP
+    for j in range(2, 61, 2):
+        days_predict = j
+        acc, train_loss, val_loss, val_precision, val_recall = train_network()
+        print("Day", str(j), "Precision", str(val_precision[-1][0]), "Recall", str(val_recall[-1][0])) 
+        print()
+        total_train_losses.append(train_loss)
+        total_acc[i-1].append(acc)
+        total_valid_losses[i-1].append(val_loss)
 
-    # PRINT TRAIN LOSS
-    # for i, val in enumerate(total_train_losses):
-    #     plt.plot(val, label="Train Losses Index " + str(i))
+# PRINT TRAIN LOSS
+# for i, val in enumerate(total_train_losses):
+#     plt.plot(val, label="Train Losses Index " + str(i))
 
-    print("Average Loss", str(np.mean(total_valid_losses)))
-    total_valid_losses = np.array(total_valid_losses)
-    best_loss = np.argmin(total_valid_losses.transpose()[-1])
-    worst_loss = np.argmax(total_valid_losses.transpose()[-1])
-    print("Best Loss", str(best_loss * 2), "->", str(total_valid_losses.transpose()[-1][best_loss]))
-    print("Worst Loss", str(worst_loss * 2), "->", str(total_valid_losses.transpose()[-1][worst_loss]))
-    # PRINT VALID LOSS
-    # for i, val in enumerate(total_valid_losses):
-    #     plt.plot(val, label="Valid Losses Index " + str(i))
-    print()
-
-    print("Average Accuracy", str(np.mean(total_acc)))
-    total_acc = np.array(total_acc)
-    best_acc = np.argmax(total_acc)
-    worst_acc = np.argmin(total_acc)
-    print("Best Accuracy", str(best_acc * 2), "->", str(total_acc.flatten()[best_acc]))
-    print("Worst Accuracy", str(worst_acc *2), "->", str(total_acc.flatten()[worst_acc]))
-    # PRINT ACCURACY
-    # for i, val in enumerate(total_acc):
-    plt.plot([i for i in range(2, 61, 2)], total_acc, label="Accuracy - Timesteps -> " + str(2 * i + 1))
-
-    plt.yticks([i for i in range(0, 101, 10)])
-    plt.ylabel("Accuracy")
-    plt.xticks([i for i in range(2, 61, 2)])
-    plt.xlabel("Time Window (days)")
-    plt.legend()
-    plt.show()
-
+# print("Average Loss", str(np.mean(total_valid_losses)))
+# total_valid_losses = np.array(total_valid_losses)
+# best_loss = np.argmin(total_valid_losses.transpose()[-1])
+# worst_loss = np.argmax(total_valid_losses.transpose()[-1])
+# print("Best Loss", str(best_loss * 2), "->", str(total_valid_losses.transpose()[-1][best_loss]))
+# print("Worst Loss", str(worst_loss * 2), "->", str(total_valid_losses.transpose()[-1][worst_loss]))
+# PRINT VALID LOSS
+total_valid_losses = np.array(total_valid_losses)
+for i, timesteps in enumerate(total_valid_losses):
     print('------------------------')
+    print("Validation Losses - Timesteps ->", str(2 * (i+1) + 1))
+    for j, val in enumerate(timesteps):
+        if(val[-1] > val[0]):
+            print("Losses at day", str(2 * j + 1), "is increasing", str(val[0]), str(val[-1]))
+    # plt.plot(val, label="Valid Losses Index " + str(i))
+
+# print("Average Accuracy", str(np.mean(total_acc)))
+# total_acc = np.array(total_acc)
+# best_acc = np.argmax(total_acc)
+# worst_acc = np.argmin(total_acc)
+# print("Best Accuracy", str(best_acc * 2), "->", str(total_acc.flatten()[best_acc]))
+# print("Worst Accuracy", str(worst_acc *2), "->", str(total_acc.flatten()[worst_acc]))
+
+# PRINT ACCURACY
+for i, val in enumerate(total_acc):
+    acc = np.array(val)
+    best_acc = np.argmax(acc)
+    worst_acc = np.argmin(acc)
+    print('------------------------')
+    print("Accuracy - Timesteps ->", str(2 * (i+1) + 1))
+    print("Average Accuracy", str(np.mean(val)))
+    print("Best Accuracy", str((best_acc + 1) * 2), "->", str(acc[best_acc]))
+    print("Worst Accuracy", str((worst_acc + 1) *2), "->", str(acc[worst_acc]))
+    print()
+    plt.plot([i for i in range(2, 61, 2)], val, label="Accuracy - Timesteps -> " + str(2 * i + 1))
+
+plt.yticks([i for i in range(0, 101, 10)])
+plt.ylabel("Accuracy")
+plt.xticks([i for i in range(2, 61, 2)])
+plt.xlabel("Time Window (days)")
+plt.legend()
+plt.show()
