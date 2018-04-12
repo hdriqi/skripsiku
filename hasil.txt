@@ -1,64 +1,451 @@
-Average Loss 0.67441547
-Best Loss 46 -> 0.5453133
-Worst Loss 58 -> 0.9555232
+------------ Day 2 ------------
+Average Acc 64.50
+Average Validation Precision 0.65000165
+Average Validation Recall 0.9733651
 
-Average Accuracy 62.93929706017176
-Best Accuracy 46 -> 86.26198172569275
-Worst Accuracy 58 -> 28.434506058692932
-------------------------
+------------ Day 4 ------------
+Average Acc 59.40
+Average Validation Precision 0.60456043
+Average Validation Recall 0.9276018
 
-Average Loss 0.65924597
-Best Loss 56 -> 0.52191633
-Worst Loss 42 -> 0.88540924
+------------ Day 6 ------------
+Average Acc 58.60
+Average Validation Precision 0.6012069
+Average Validation Recall 0.89660877
 
-Average Accuracy 65.8785942196846
-Best Accuracy 56 -> 86.58146858215332
-Worst Accuracy 42 -> 32.58785903453827
-------------------------
+------------ Day 8 ------------
+Average Acc 58.10
+Average Validation Precision 0.59310645
+Average Validation Recall 0.9566075
 
-Average Loss 0.665821
-Best Loss 56 -> 0.4904641
-Worst Loss 22 -> 0.85452175
+------------ Day 10 ------------
+Average Acc 56.90
+Average Validation Precision 0.5845614
+Average Validation Recall 0.91649026
 
-Average Accuracy 62.012779712677
-Best Accuracy 56 -> 89.4568681716919
-Worst Accuracy 22 -> 31.948882341384888
-------------------------
+------------ Day 12 ------------
+Average Acc 57.60
+Average Validation Precision 0.5886251
+Average Validation Recall 0.9121175
 
-Average Loss 0.64778715
-Best Loss 54 -> 0.5353708
-Worst Loss 10 -> 0.76827985
+------------ Day 14 ------------
+Average Acc 58.00
+Average Validation Precision 0.58550435
+Average Validation Recall 0.94627595
 
-Average Accuracy 66.79446309804916
-Best Accuracy 54 -> 86.58146858215332
-Worst Accuracy 10 -> 44.40894424915314
-------------------------
+------------ Day 16 ------------
+Average Acc 56.80
+Average Validation Precision 0.5789002
+Average Validation Recall 0.93954366
 
-Average Loss 0.67264414
-Best Loss 48 -> 0.5499452
-Worst Loss 50 -> 0.82212603
+------------ Day 18 ------------
+Average Acc 57.60
+Average Validation Precision 0.5848367
+Average Validation Recall 0.93264145
 
-Average Accuracy 64.02555922667186
-Best Accuracy 48 -> 83.70606899261475
-Worst Accuracy 32 -> 41.5335476398468
-------------------------
+------------ Day 20 ------------
+Average Acc 57.70
+Average Validation Precision 0.5776061
+Average Validation Recall 0.9559748
 
+------------ Day 22 ------------
+Average Acc 57.40
+Average Validation Precision 0.58682364
+Average Validation Recall 0.9791667
 
-SET BIAS = 0
-Average Loss 0.67200744
-Best Loss 52 -> 0.5546397
-Worst Loss 18 -> 0.8031084
+------------ Day 24 ------------
+Average Acc 59.90
+Average Validation Precision 0.58435243
+Average Validation Recall 0.9451505
 
-Average Accuracy 64.20660227537155
-Best Accuracy 52 -> 85.62300205230713
-Worst Accuracy 28 -> 39.93610143661499
-------------------------
+------------ Day 26 ------------
+Average Acc 59.00
+Average Validation Precision 0.5804337
+Average Validation Recall 0.9321397
 
-Average Loss 0.68175536
-Best Loss 38 -> 0.530144
-Worst Loss 12 -> 0.92708987
+------------ Day 28 ------------
+Average Acc 56.30
+Average Validation Precision 0.5741475
+Average Validation Recall 0.94871795
 
-Average Accuracy 63.5569754242897
-Best Accuracy 58 -> 85.62300205230713
-Worst Accuracy 54 -> 37.060701847076416
-------------------------
+------------ Day 30 ------------
+Average Acc 54.90
+Average Validation Precision 0.5660552
+Average Validation Recall 0.89783657
+
+------------ Day 32 ------------
+Average Acc 56.60
+Average Validation Precision 0.58841693
+Average Validation Recall 0.94129556
+
+------------ Day 34 ------------
+Average Acc 57.90
+Average Validation Precision 0.5903507
+Average Validation Recall 0.9131944
+
+------------ Day 36 ------------
+Average Acc 56.70
+Average Validation Precision 0.5893986
+Average Validation Recall 0.952412
+
+------------ Day 38 ------------
+Average Acc 56.00
+Average Validation Precision 0.58808047
+Average Validation Recall 0.9081382
+
+------------ Day 40 ------------
+Average Acc 58.20
+Average Validation Precision 0.6021052
+Average Validation Recall 0.91055
+
+------------ Day 42 ------------
+Average Acc 56.70
+Average Validation Precision 0.59839475
+Average Validation Recall 0.91416776
+
+------------ Day 44 ------------
+Average Acc 59.30
+Average Validation Precision 0.6033767
+Average Validation Recall 0.8928727
+
+------------ Day 46 ------------
+Average Acc 57.90
+Average Validation Precision 0.60603017
+Average Validation Recall 0.9061208
+
+------------ Day 48 ------------
+Average Acc 58.20
+Average Validation Precision 0.6118752
+Average Validation Recall 0.8473558
+
+------------ Day 50 ------------
+Average Acc 58.20
+Average Validation Precision 0.61183923
+Average Validation Recall 0.84017736
+
+------------ Day 52 ------------
+Average Acc 60.10
+Average Validation Precision 0.6114496
+Average Validation Recall 0.93353844
+
+------------ Day 54 ------------
+Average Acc 59.00
+Average Validation Precision 0.60723853
+Average Validation Recall 0.8862696
+
+------------ Day 56 ------------
+Average Acc 59.90
+Average Validation Precision 0.6087586
+Average Validation Recall 0.96784365
+
+------------ Day 58 ------------
+Average Acc 58.50
+Average Validation Precision 0.6116824
+Average Validation Recall 0.94571495
+
+------------ Day 60 ------------
+Average Acc 58.80
+Average Validation Precision 0.60910165
+Average Validation Recall 0.8129231
+
+------------ Day 2 ------------
+Average Acc 64.00
+Average Validation Precision 0.65034544
+Average Validation Recall 0.9768519
+
+------------ Day 4 ------------
+Average Acc 60.30
+Average Validation Precision 0.6053342
+Average Validation Recall 0.9700513
+
+------------ Day 6 ------------
+Average Acc 59.60
+Average Validation Precision 0.6026561
+Average Validation Recall 0.93686706
+
+------------ Day 8 ------------
+Average Acc 58.60
+Average Validation Precision 0.59588003
+Average Validation Recall 0.9471707
+
+------------ Day 10 ------------
+Average Acc 57.80
+Average Validation Precision 0.5913609
+Average Validation Recall 0.95533496
+
+------------ Day 12 ------------
+Average Acc 57.40
+Average Validation Precision 0.5893544
+Average Validation Recall 0.95010394
+
+------------ Day 14 ------------
+Average Acc 56.20
+Average Validation Precision 0.5765785
+Average Validation Recall 0.951282
+
+------------ Day 16 ------------
+Average Acc 55.00
+Average Validation Precision 0.5724627
+Average Validation Recall 0.9563077
+
+------------ Day 18 ------------
+Average Acc 57.80
+Average Validation Precision 0.5887839
+Average Validation Recall 0.9516678
+
+------------ Day 20 ------------
+Average Acc 58.10
+Average Validation Precision 0.57790786
+Average Validation Recall 0.9613174
+
+------------ Day 22 ------------
+Average Acc 54.30
+Average Validation Precision 0.5751964
+Average Validation Recall 0.9474251
+
+------------ Day 24 ------------
+Average Acc 58.20
+Average Validation Precision 0.57798004
+Average Validation Recall 0.90980655
+
+------------ Day 26 ------------
+Average Acc 56.60
+Average Validation Precision 0.5781576
+Average Validation Recall 0.879793
+
+------------ Day 28 ------------
+Average Acc 56.50
+Average Validation Precision 0.5719734
+Average Validation Recall 0.9089301
+
+------------ Day 30 ------------
+Average Acc 57.10
+Average Validation Precision 0.5783211
+Average Validation Recall 0.9152047
+
+------------ Day 32 ------------
+Average Acc 57.40
+Average Validation Precision 0.58353525
+Average Validation Recall 0.924812
+
+------------ Day 34 ------------
+Average Acc 56.00
+Average Validation Precision 0.5922609
+Average Validation Recall 0.8537592
+
+------------ Day 36 ------------
+Average Acc 54.50
+Average Validation Precision 0.57969826
+Average Validation Recall 0.8887543
+
+------------ Day 38 ------------
+Average Acc 56.70
+Average Validation Precision 0.59389055
+Average Validation Recall 0.93431956
+
+------------ Day 40 ------------
+Average Acc 58.80
+Average Validation Precision 0.6022748
+Average Validation Recall 0.9208854
+
+------------ Day 42 ------------
+Average Acc 57.50
+Average Validation Precision 0.60364634
+Average Validation Recall 0.9207459
+
+------------ Day 44 ------------
+Average Acc 56.30
+Average Validation Precision 0.60003155
+Average Validation Recall 0.9392131
+
+------------ Day 46 ------------
+Average Acc 58.40
+Average Validation Precision 0.60851574
+Average Validation Recall 0.96016103
+
+------------ Day 48 ------------
+Average Acc 59.70
+Average Validation Precision 0.6104291
+Average Validation Recall 0.951428
+
+------------ Day 50 ------------
+Average Acc 58.30
+Average Validation Precision 0.6125635
+Average Validation Recall 0.9595828
+
+------------ Day 52 ------------
+Average Acc 59.30
+Average Validation Precision 0.6086644
+Average Validation Recall 0.85056746
+
+------------ Day 54 ------------
+Average Acc 58.10
+Average Validation Precision 0.6046767
+Average Validation Recall 0.8722258
+
+------------ Day 56 ------------
+Average Acc 61.90
+Average Validation Precision 0.61820704
+Average Validation Recall 0.9076039
+
+------------ Day 58 ------------
+Average Acc 60.70
+Average Validation Precision 0.6118946
+Average Validation Recall 0.87246376
+
+------------ Day 60 ------------
+Average Acc 59.50
+Average Validation Precision 0.6085722
+Average Validation Recall 0.91163385
+
+------------ Day 2 ------------
+Average Acc 64.40
+Average Validation Precision 0.6514952
+Average Validation Recall 0.97893065
+
+------------ Day 4 ------------
+Average Acc 59.00
+Average Validation Precision 0.6057727
+Average Validation Recall 0.96480185
+
+------------ Day 6 ------------
+Average Acc 58.90
+Average Validation Precision 0.60237193
+Average Validation Recall 0.9430199
+
+------------ Day 8 ------------
+Average Acc 57.80
+Average Validation Precision 0.59112304
+Average Validation Recall 0.94936985
+
+------------ Day 10 ------------
+Average Acc 57.30
+Average Validation Precision 0.589961
+Average Validation Recall 0.9474359
+
+------------ Day 12 ------------
+Average Acc 58.00
+Average Validation Precision 0.58885634
+Average Validation Recall 0.928382
+
+------------ Day 14 ------------
+Average Acc 56.70
+Average Validation Precision 0.57939994
+Average Validation Recall 0.94139194
+
+------------ Day 16 ------------
+Average Acc 57.00
+Average Validation Precision 0.5764152
+Average Validation Recall 0.93346596
+
+------------ Day 18 ------------
+Average Acc 57.80
+Average Validation Precision 0.58096254
+Average Validation Recall 0.9222362
+
+------------ Day 20 ------------
+Average Acc 56.90
+Average Validation Precision 0.5722288
+Average Validation Recall 0.92164105
+
+------------ Day 22 ------------
+Average Acc 57.10
+Average Validation Precision 0.58273923
+Average Validation Recall 0.93191123
+
+------------ Day 24 ------------
+Average Acc 54.80
+Average Validation Precision 0.5655824
+Average Validation Recall 0.8549093
+
+------------ Day 26 ------------
+Average Acc 56.50
+Average Validation Precision 0.5749959
+Average Validation Recall 0.89066666
+
+------------ Day 28 ------------
+Average Acc 55.30
+Average Validation Precision 0.567345
+Average Validation Recall 0.9174603
+
+------------ Day 30 ------------
+Average Acc 55.70
+Average Validation Precision 0.57154274
+Average Validation Recall 0.903456
+
+------------ Day 32 ------------
+Average Acc 55.80
+Average Validation Precision 0.5766586
+Average Validation Recall 0.8783217
+
+------------ Day 34 ------------
+Average Acc 58.50
+Average Validation Precision 0.5918457
+Average Validation Recall 0.9342252
+
+------------ Day 36 ------------
+Average Acc 56.80
+Average Validation Precision 0.58637726
+Average Validation Recall 0.93211436
+
+------------ Day 38 ------------
+Average Acc 57.30
+Average Validation Precision 0.59568006
+Average Validation Recall 0.9317688
+
+------------ Day 40 ------------
+Average Acc 57.10
+Average Validation Precision 0.60160273
+Average Validation Recall 0.92110455
+
+------------ Day 42 ------------
+Average Acc 58.30
+Average Validation Precision 0.59944284
+Average Validation Recall 0.925196
+
+------------ Day 44 ------------
+Average Acc 57.80
+Average Validation Precision 0.6018947
+Average Validation Recall 0.92385983
+
+------------ Day 46 ------------
+Average Acc 57.80
+Average Validation Precision 0.60842943
+Average Validation Recall 0.9005628
+
+------------ Day 48 ------------
+Average Acc 58.80
+Average Validation Precision 0.61308163
+Average Validation Recall 0.91431075
+
+------------ Day 50 ------------
+Average Acc 59.20
+Average Validation Precision 0.613886
+Average Validation Recall 0.9060628
+
+------------ Day 52 ------------
+Average Acc 59.60
+Average Validation Precision 0.6094532
+Average Validation Recall 0.908276
+
+------------ Day 54 ------------
+Average Acc 59.30
+Average Validation Precision 0.6063657
+Average Validation Recall 0.89425915
+
+------------ Day 56 ------------
+Average Acc 60.70
+Average Validation Precision 0.6111449
+Average Validation Recall 0.955879
+
+------------ Day 58 ------------
+Average Acc 62.30
+Average Validation Precision 0.61293817
+Average Validation Recall 0.9077312
+
+------------ Day 60 ------------
+Average Acc 59.80
+Average Validation Precision 0.6092186
+Average Validation Recall 0.913409
+
+64.49999928474426 Days 2 Timesteps 3
