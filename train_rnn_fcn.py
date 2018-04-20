@@ -25,7 +25,7 @@ k_fold = KFold(n_splits=5, shuffle=True)
 
 def prepare_train_data(day):
     df_input = pd.read_csv("dataset.csv").drop('timestamp', axis=1).as_matrix()[1:]
-    df_norm = (df_input - df_input.mean()) / (df_input.max() - df_input.min())
+    df_norm = (df_input - df_input.min()) / (df_input.max() - df_input.min())
     df_output = pd.read_csv("labels/" + str(day) + "days.csv").as_matrix()
     train_input = []
     train_output = []
@@ -37,7 +37,7 @@ def prepare_train_data(day):
 
 def prepare_test_data(day):
     df_input = pd.read_csv("dataset.csv").drop('timestamp', axis=1).as_matrix()[1:]
-    df_norm = (df_input - df_input.mean()) / (df_input.max() - df_input.min())
+    df_norm = (df_input - df_input.min()) / (df_input.max() - df_input.min())
     df_output = pd.read_csv("labels/" + str(day) + "days.csv").as_matrix()
     test_input = []
     test_output = []
@@ -218,7 +218,7 @@ for i in range(1,2):
 
 # print(np.mean(total_acc))
 print(top_acc, top_acc_details)
-plt.yticks([i for i in range(0, 101, 10)])
+plt.yticks([i for i in range(40, 81, 10)])
 plt.ylabel("Accuracy")
 plt.xticks([i for i in range(2, 61, 2)])
 plt.xlabel("Time Window (days)")

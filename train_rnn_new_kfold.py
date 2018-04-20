@@ -1,0 +1,212 @@
+import tensorflow as tf
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import KFold
+
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+# Global config variables
+input_dimension = 14
+output_dimension = 2
+num_classes = 2
+data_length = 1300
+batch_size = 128
+state_size = 40
+learning_rate = 0.0001
+# learning_rate = 0.01
+k_fold = KFold(n_splits=5, shuffle=True)
+
+timesteps = 3
+days_predict = 2
+epoch = 100
+
+def prepare_train_data(day):
+    df_norm = pd.read_csv("dataset-normalize.csv").drop('timestamp', axis=1).as_matrix()[1:]
+    df_output = pd.read_csv("labels/" + str(day) + "days.csv").as_matrix()
+    train_input = []
+    train_output = []
+    for i in range(0, data_length):
+        train_input.append(df_norm[i:i+timesteps])
+        train_output.append(df_output[i+timesteps])
+
+    return np.asarray(train_input), np.asarray(train_output)
+
+x = tf.placeholder(tf.float32, [None, None, input_dimension], name='input_placeholder')
+y = tf.placeholder(tf.float32, [None, output_dimension], name='labels_placeholder')
+init_state = tf.placeholder(tf.float32, [None, state_size], name='state_placeholder')
+
+cell = tf.contrib.rnn.BasicRNNCell(state_size, activation=tf.nn.relu)
+cell = tf.nn.rnn_cell.DropoutWrapper(cell=cell, output_keep_prob=0.5)
+val, state = tf.nn.dynamic_rnn(cell, x, initial_state=init_state, dtype=tf.float32)
+
+val = tf.transpose(val, [1, 0, 2])
+rnn_last = tf.gather(val, timesteps - 1)
+
+weight = tf.Variable(tf.truncated_normal([state_size, num_classes]))
+bias = tf.Variable(tf.zeros(num_classes))
+
+logits = tf.matmul(rnn_last, weight) + bias
+prediction = tf.nn.softmax(logits)
+
+losses = tf.losses.softmax_cross_entropy(onehot_labels=y ,logits=logits)
+
+cost =  tf.reduce_mean(losses)
+train_step = tf.train.AdamOptimizer(learning_rate).minimize(cost)
+
+
+cohen_kappa = tf.contrib.metrics.cohen_kappa(tf.argmax(y, 1), tf.argmax(prediction, 1), num_classes)
+correct = tf.equal(tf.argmax(y, 1), tf.argmax(prediction, 1))
+recall = tf.metrics.recall(tf.argmax(y, 1), tf.argmax(prediction, 1))
+precision = tf.metrics.precision(tf.argmax(y, 1), tf.argmax(prediction, 1))
+accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))
+
+def train_network(train_input, train_output, day, timesteps, save=True):
+    days_predict = day
+    timesteps = timesteps
+
+    total_acc = []
+    total_train_losses = []
+    total_val_losses = []
+    total_val_precision = []
+    total_val_recall = []
+    total_val_kappa = []
+
+    train_losses_by_epoch = []
+    val_losses_by_epoch = []
+
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+        sess.run(tf.local_variables_initializer())
+        
+        k = 5
+        fold_length = int(len(train_input)/k)
+        # TRAIN USING K-FOLD CROSS VALIDATION
+        for fold in range(k-1):
+            fold_pointer = (fold+1) * fold_length
+            train_indices = [y for y in range(0, fold_pointer)]
+            val_indices = [z for z in range(fold_pointer, fold_pointer+fold_length)]
+            
+            train_input_kfold = train_input[train_indices]
+            train_output_kfold = train_output[train_indices]
+
+            val_input_kfold = train_input[val_indices]
+            val_output_kfold = train_output[val_indices]
+
+            no_of_batches = int(len(train_input_kfold)/batch_size)
+            train_loss = []
+            train_losses = []
+            val_accuracy = []
+            val_losses = []
+            val_precision = []
+            val_recall = []
+            val_kappa = []
+
+            for i in range(epoch):
+                epoch_step = i + 1
+                ptr = 0
+                for j in range(no_of_batches):
+                    inp, out = train_input_kfold[ptr:ptr+batch_size], train_output_kfold[ptr:ptr+batch_size]
+                    ptr+=batch_size
+                    rnn_init_weight = np.eye(batch_size, state_size)
+
+                    training_step, training_cost, training_state = sess.run([train_step, cost, state], 
+                        feed_dict={
+                            x: inp,
+                            y: out,
+                            init_state: rnn_init_weight
+                        })
+                    train_loss.append(training_cost)
+                
+                # RESULT PER EPOCH
+                rnn_init_weight_validation = np.eye(len(val_input_kfold), state_size)
+                accuracy_, cohen_kappa_, precision_, recall_, prediction_, cost_ = sess.run([accuracy, precision, cohen_kappa, recall, prediction, cost], 
+                    feed_dict={
+                        x: val_input_kfold, 
+                        y: val_output_kfold,
+                        init_state: rnn_init_weight_validation
+                    })
+
+                train_losses.append(np.mean(train_loss))
+                val_losses.append(cost_)
+                val_accuracy.append(accuracy_*100)
+                val_precision.append(precision_[0])
+                val_recall.append(recall_[0])
+                val_kappa.append(cohen_kappa_[0])
+                train_loss = []
+
+            # plt.plot(train_losses, label="Train")
+            # plt.plot(val_losses, label="Validation")
+            # plt.xticks([i+1 for i in range(0, epoch, 10)])
+            # plt.xlabel("Epoch")
+            # plt.legend()
+            # plt.show()
+
+            val_accuracy = np.asarray(val_accuracy)
+
+            total_acc.append(val_accuracy[-1])
+            total_train_losses.append(train_losses[-1])
+            total_val_losses.append(val_losses[-1])
+            total_val_precision.append(val_precision[-1])
+            total_val_recall.append(val_recall[-1])
+            total_val_kappa.append(val_kappa[-1])
+        
+        if(save):
+            checkpoint_dir = "./checkpoint/rnn/timesteps-" + str(timesteps)
+            if not os.path.exists(checkpoint_dir):
+                os.makedirs(checkpoint_dir)
+            checkpoint_dest = checkpoint_dir + '/' + 'days-' + str(days_predict) + '/model'
+            tf.train.Saver().save(sess, checkpoint_dest)
+
+        # set as numpy array
+        total_acc = np.asarray(total_acc)
+        total_train_losses = np.asarray(total_train_losses)
+        total_val_losses = np.asarray(total_val_losses)
+        total_val_precision = np.asarray(total_val_precision)
+        total_val_recall = np.asarray(total_val_recall)
+
+        f_acc = np.mean(total_acc)
+        f_kappa = np.mean(total_val_kappa)
+        f_train_losses = np.mean(total_train_losses)
+        f_val_losses = np.mean(total_val_losses)
+        f_precision = np.mean(total_val_precision)
+        f_recall = np.mean(total_val_recall)
+        f_fscore = 2*((f_precision*f_recall)/(f_precision+f_recall))
+
+        print("------------ Day", day, "• Timesteps", timesteps, "------------")
+        print("Average Acc {:.2f}".format(f_acc))
+        print("Cohens Kappa", f_kappa)
+        print("Average Train Loss", f_train_losses)
+        print("Average Validation Loss", f_val_losses)
+        print("Precision", f_precision)
+        print("Recall", f_recall)
+        print("F-Measure", f_fscore)
+
+        return f_acc, f_kappa, f_precision, f_recall, f_fscore, f_val_losses, f_train_losses
+
+top_acc = 0
+top_acc_details = ""
+total_acc = []
+
+for i in range(1, 2):
+    timesteps = 2 * i + 1
+    total_acc = []
+    for j in range(2, 61, 2):
+        train_input, train_output = prepare_train_data(j)
+        acc_, kappa_, precision_, recall_, fscore_, val_losses_, train_losses_ = train_network(train_input=train_input, train_output=train_output, day=j, timesteps=timesteps, save=False)
+        
+        total_acc.append(kappa_*100)
+        if(kappa_ > top_acc):
+            top_acc = kappa_
+            top_acc_details = "Days " + str(j) + " Timesteps " + str(timesteps)
+        print()
+    plt.plot([z for z in range(2, 61, 2)], total_acc, label="Accuracy - Timesteps " + str(timesteps))
+
+print(top_acc, top_acc_details)
+plt.yticks([i for i in range(40, 81, 10)])
+plt.ylabel("Accuracy")
+plt.xticks([i for i in range(2, 61, 2)])
+plt.xlabel("Time Window (days)")
+plt.legend()
+plt.show()

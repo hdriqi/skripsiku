@@ -1,0 +1,67 @@
+LEARNING RATE ANALYZE
+    EPOCH 50/HS 10
+    Average Train Losses for with learning rate 0.01 -> 0.6134278
+    Average Validation Losses for with learning rate 0.01 -> 0.62172943
+
+    Average Train Losses for with learning rate 0.001 -> 0.62811655
+    Average Validation Losses for with learning rate 0.001 -> 0.6340836
+
+    Average Train Losses for with learning rate 0.0001 -> 0.7545443
+    Average Validation Losses for with learning rate 0.0001 -> 0.7819612
+
+HIDDEN STATE ANALYZE
+    HS 5
+    Average Train Losses for with learning rate 0.01 -> 0.6306323
+    Average Validation Losses for with learning rate 0.01 -> 0.63182616
+
+    HS 10
+    Average Train Losses for with learning rate 0.01 -> 0.6134278
+    Average Validation Losses for with learning rate 0.01 -> 0.62172943
+
+    HS 20
+    Average Train Losses for with learning rate 0.01 -> 0.59004146
+    Average Validation Losses for with learning rate 0.01 -> 0.61155295
+
+    HS 30
+    Average Train Losses for with learning rate 0.01 -> 0.576989
+    Average Validation Losses for with learning rate 0.01 -> 0.612869
+
+    HS 40
+    Average Train Losses for with learning rate 0.01 -> 0.5590034
+    Average Validation Losses for with learning rate 0.01 -> 0.61226517
+
+    HS 50
+    Average Train Losses for with learning rate 0.01 -> 0.54701614
+    Average Validation Losses for with learning rate 0.01 -> 0.6244052
+
+LEARNING ALGORITHM/HS40
+    ADAM
+    Average Train Losses for with learning rate 0.01 -> 0.5590034
+    Average Validation Losses for with learning rate 0.01 -> 0.61226517
+
+    ADA DELTA    
+    Average Train Losses for with learning rate 0.01 -> 1.2032908
+    Average Validation Losses for with learning rate 0.01 -> 1.3128142
+
+    RMSProp
+    Average Train Losses for with learning rate 0.01 -> 0.5699533
+    Average Validation Losses for with learning rate 0.01 -> 0.6366255
+
+    SGD
+    Average Train Losses for with learning rate 0.01 -> 0.6170438
+    Average Validation Losses for with learning rate 0.01 -> 0.6249811
+
+
+BATCH SIZE HS 20
+    128
+    Average Train Losses for with learning rate 0.01 -> 0.59004146
+    Average Validation Losses for with learning rate 0.01 -> 0.61155295
+
+    64
+    Average Train Losses for with learning rate 0.01 -> 0.60626984
+    Average Validation Losses for with learning rate 0.01 -> 0.62300986
+    76.38461470603943 Days 56 Timesteps 3
+
+    32
+    Average Train Losses for with learning rate 0.01 -> 0.61740124
+    Average Validation Losses for with learning rate 0.01 -> 0.6298634

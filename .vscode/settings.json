@@ -2,4 +2,5 @@
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,
     "python.linting.pylintPath": "pylint3",
+    "editor.tabSize": 4,
 }
