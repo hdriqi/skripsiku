@@ -1,7 +1,8 @@
 LEARNING RATE ANALYZE
     EPOCH 50/HS 10
     Average Train Losses for with learning rate 0.01 -> 0.6134278
-    Average Validation Losses for with learning rate 0.01 -> 0.62172943
+    Average Validation Losses for with learning rate 0.01 -> 0.61903614
+    [0.63562787, 0.6550137, 0.67490506, 0.6589295, 0.66701865, 0.64529276, 0.6394712, 0.64999443, 0.6341047, 0.63489664, 0.6583451, 0.6364752, 0.64904904, 0.6443868, 0.6318391, 0.6304832, 0.63078976, 0.6476619, 0.61626375, 0.6165199, 0.6097248, 0.593168, 0.59211457, 0.5650946, 0.586732, 0.57018626, 0.5639838, 0.542042, 0.5862691, 0.50470215]
 
     Average Train Losses for with learning rate 0.001 -> 0.62811655
     Average Validation Losses for with learning rate 0.001 -> 0.6340836

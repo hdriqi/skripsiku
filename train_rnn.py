@@ -13,7 +13,7 @@ output_dimension = 2
 num_classes = 2
 data_length = 1300
 batch_size = 128
-state_size = 20
+state_size = 10
 learning_rate = 0.01
 k_fold = KFold(n_splits=5, shuffle=True)
 
@@ -190,7 +190,8 @@ for i in range(1, 2):
             top_acc = acc_
             top_acc_details = "Days " + str(j) + " Timesteps " + str(timesteps)
         print()
-    visualize_loss(total_losses, timesteps)
+    # visualize_loss(total_losses, timesteps)
+    print(total_val_losses)
     visualize_val_loss(total_val_losses, timesteps)
     # plt.plot([z for z in range(2, 61, 2)], total_acc, label="Accuracy - Timesteps " + str(timesteps))
 
