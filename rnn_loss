@@ -34,22 +34,22 @@ HIDDEN STATE ANALYZE
     Average Train Losses for with learning rate 0.01 -> 0.54701614
     Average Validation Losses for with learning rate 0.01 -> 0.6244052
 
-LEARNING ALGORITHM/HS40
+LEARNING ALGORITHM/HS20
     ADAM
-    Average Train Losses for with learning rate 0.01 -> 0.5590034
-    Average Validation Losses for with learning rate 0.01 -> 0.61226517
+    Average Train Losses for with learning rate 0.01 -> 0.59004146
+    Average Validation Losses for with learning rate 0.01 -> 0.61155295
 
     ADA DELTA    
-    Average Train Losses for with learning rate 0.01 -> 1.2032908
-    Average Validation Losses for with learning rate 0.01 -> 1.3128142
+    Average Train Losses for with learning rate 0.01 -> 0.93401134
+    Average Validation Losses for with learning rate 0.01 -> 0.9937173
 
     RMSProp
-    Average Train Losses for with learning rate 0.01 -> 0.5699533
-    Average Validation Losses for with learning rate 0.01 -> 0.6366255
+    Average Train Losses for with learning rate 0.01 -> 0.5943707
+    Average Validation Losses for with learning rate 0.01 -> 0.6271354
 
     SGD
-    Average Train Losses for with learning rate 0.01 -> 0.6170438
-    Average Validation Losses for with learning rate 0.01 -> 0.6249811
+    Average Train Losses for with learning rate 0.01 -> 0.62721187
+    Average Validation Losses for with learning rate 0.01 -> 0.6325869
 
 
 BATCH SIZE HS 20

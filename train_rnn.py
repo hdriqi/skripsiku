@@ -13,7 +13,7 @@ output_dimension = 2
 num_classes = 2
 data_length = 1300
 batch_size = 128
-state_size = 40
+state_size = 20
 learning_rate = 0.01
 k_fold = KFold(n_splits=5, shuffle=True)
 
@@ -53,9 +53,9 @@ losses = tf.losses.softmax_cross_entropy(onehot_labels=y ,logits=logits)
 
 cost =  tf.reduce_mean(losses)
 train_step = tf.train.AdamOptimizer(learning_rate).minimize(cost)
-train_step = tf.train.AdadeltaOptimizer(learning_rate).minimize(cost)
-train_step = tf.train.RMSPropOptimizer(learning_rate).minimize(cost)
-train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+# train_step = tf.train.AdadeltaOptimizer(learning_rate).minimize(cost)
+# train_step = tf.train.RMSPropOptimizer(learning_rate).minimize(cost)
+# train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
 correct = tf.equal(tf.argmax(y, 1), tf.argmax(prediction, 1))
 recall = tf.metrics.recall(tf.argmax(y, 1), tf.argmax(prediction, 1))
