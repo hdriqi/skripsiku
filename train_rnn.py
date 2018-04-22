@@ -12,10 +12,11 @@ input_dimension = 14
 output_dimension = 2
 data_length = 1300
 batch_size = 128
-state_size = 10
+state_size = 20
 learning_rate = 0.01
 k_fold = KFold(n_splits=5, shuffle=True)
-epoch = 50
+epoch = 100
+result_filename = 'rnn_result_' + str(epoch)
 
 class Model:
 	def __init__(self, data, target, initial_state, timesteps):
@@ -149,7 +150,7 @@ def train_network(train_input, train_output, days_predict, timesteps, save=True)
 
 				train_losses.append(np.mean(train_loss))
 				val_losses.append(cost_)
-				val_accuracy.append(accuracy_*100)
+				val_accuracy.append(accuracy_[0]*100)
 				val_precision.append(precision_[0])
 				val_recall.append(recall_[0])
 				train_loss = []
@@ -176,7 +177,7 @@ def train_network(train_input, train_output, days_predict, timesteps, save=True)
 		f_recall = np.mean(total_val_recall)
 		f_fscore = 2*((f_precision*f_recall)/(f_precision+f_recall))
 
-		with open('rnn_result', 'a') as f:
+		with open(result_filename, 'a') as f:
 			print("------------ Day", days_predict, "• Timesteps", timesteps, "------------", file=f)
 			print("Average Acc {:.2f}".format(f_acc), file=f)
 			print("Average Train Loss", f_train_losses, file=f)
@@ -187,7 +188,7 @@ def train_network(train_input, train_output, days_predict, timesteps, save=True)
 			print("", file=f)
 
 		print("------------ Day", days_predict, "• Timesteps", timesteps, "------------")
-		print("Average Acc {:.2f}".format(f_acc))
+		print("Average Acc", f_acc)
 		print("Average Train Loss", f_train_losses)
 		print("Average Validation Loss", f_val_losses)
 		print("Precision", f_precision)
@@ -222,7 +223,7 @@ def main():
 
 		plt.plot([z for z in range(2, 61, 2)], total_acc, label="Accuracy - Timesteps " + str(timesteps))
 
-	with open('rnn_result', 'a') as f:
+	with open(result_filename, 'a') as f:
 		print(top_acc, top_acc_details, file=f)
 
 	print(top_acc, top_acc_details)

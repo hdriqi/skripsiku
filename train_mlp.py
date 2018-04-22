@@ -15,7 +15,8 @@ data_length = 1300
 batch_size = 128
 learning_rate = 0.01
 k_fold = KFold(n_splits=5, shuffle=True)
-epoch = 50
+epoch = 200
+result_filename = 'mlp_result_' + str(epoch)
 
 class Model:
 	def __init__(self, data, target, input_dimension):
@@ -160,7 +161,7 @@ def train_network(train_input, train_output, days_predict, timesteps, save=True)
 		f_recall = np.mean(total_val_recall)
 		f_fscore = 2*((f_precision*f_recall)/(f_precision+f_recall))
 
-		with open('mlp_result', 'a') as f:
+		with open(result_filename, 'a') as f:
 			print("------------ Day", days_predict, "• Timesteps", timesteps, "------------", file=f)
 			print("Average Acc {:.2f}".format(f_acc), file=f)
 			print("Average Train Loss", f_train_losses, file=f)
@@ -214,15 +215,15 @@ def main():
 				top_acc = acc_
 				top_acc_details = "Days " + str(j) + " Timesteps " + str(timesteps)
 			
-		plt.plot([z for z in range(2, len(total_acc), 2)], total_acc, label="Accuracy - Timesteps " + str(timesteps))
+		plt.plot([z for z in range(2, 61, 2)], total_acc, label="Accuracy - Timesteps " + str(timesteps))
 
-	with open('mlp_result', 'a') as f:
+	with open(result_filename, 'a') as f:
 		print(top_acc, top_acc_details, file=f)
 
 	print(top_acc, top_acc_details)
-	plt.yticks([i for i in range(40, 81, 10)])
+	plt.yticks([i for i in range(40, 91, 10)])
 	plt.ylabel("Accuracy")
-	plt.xticks([i for i in range(2, len(total_acc), 2)])
+	plt.xticks([i for i in range(2, 61, 2)])
 	plt.xlabel("Time Window (days)")
 	plt.legend()
 	plt.show()
