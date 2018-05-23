@@ -7,15 +7,15 @@ from sklearn.model_selection import KFold
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-# Global config variables
 input_dimension = 14
 output_dimension = 2
 data_length = 1300
 batch_size = 128
+k_fold = KFold(n_splits=5, shuffle=True)
 state_size = 20
 learning_rate = 0.01
-k_fold = KFold(n_splits=5, shuffle=True)
-epoch = 100
+epoch = 200
+opt_optimizer = 'adam'
 result_filename = 'rnn_result_' + str(epoch)
 
 class Model:
@@ -40,7 +40,15 @@ class Model:
 		losses = tf.losses.softmax_cross_entropy(onehot_labels=y ,logits=logits)
 
 		self._cost =  tf.reduce_mean(losses)
-		self._optimize = tf.train.AdamOptimizer(learning_rate).minimize(self._cost)
+		
+		if(opt_optimizer == "adam"):
+			self._optimize = tf.train.AdamOptimizer(learning_rate).minimize(self._cost)
+		elif(opt_optimizer == "adadelta"):
+			self._optimize = tf.train.AdadeltaOptimizer(learning_rate).minimize(self._cost)
+		elif(opt_optimizer == "rmsprop"):
+			self._optimize = tf.train.RMSPropOptimizer(learning_rate).minimize(self._cost)
+		else:
+			self._optimize = tf.train.GradientDescentOptimizer(learning_rate).minimize(self._cost)
 
 		self._recall = tf.metrics.recall(tf.argmax(y, 1), tf.argmax(prediction, 1))
 		self._precision = tf.metrics.precision(tf.argmax(y, 1), tf.argmax(prediction, 1))
@@ -117,6 +125,7 @@ def train_network(train_input, train_output, days_predict, timesteps, save=True)
 			val_output_kfold = train_output[val_indices]
 
 			no_of_batches = int(len(train_input_kfold)/batch_size)
+			
 			train_loss = []
 			train_losses = []
 			val_accuracy = []
@@ -139,7 +148,6 @@ def train_network(train_input, train_output, days_predict, timesteps, save=True)
 						})
 					train_loss.append(training_cost)
 				
-				# RESULT PER EPOCH
 				rnn_init_weight_validation = np.eye(len(val_input_kfold), state_size)
 				accuracy_, precision_, recall_, cost_ = sess.run([model.accuracy, model.precision, model.recall, model.cost], 
 					feed_dict={
@@ -177,18 +185,18 @@ def train_network(train_input, train_output, days_predict, timesteps, save=True)
 		f_recall = np.mean(total_val_recall)
 		f_fscore = 2*((f_precision*f_recall)/(f_precision+f_recall))
 
-		with open(result_filename, 'a') as f:
-			print("------------ Day", days_predict, "• Timesteps", timesteps, "------------", file=f)
-			print("Average Acc {:.2f}".format(f_acc), file=f)
-			print("Average Train Loss", f_train_losses, file=f)
-			print("Average Validation Loss", f_val_losses, file=f)
-			print("Precision", f_precision, file=f)
-			print("Recall", f_recall, file=f)
-			print("F-Measure", f_fscore, file=f)
-			print("", file=f)
+		# with open(result_filename, 'a') as f:
+		# 	print("------------ Day", days_predict, "• Timesteps", timesteps, "------------", file=f)
+		# 	print("Average Acc {:.2f}".format(f_acc), file=f)
+		# 	print("Average Train Loss", f_train_losses, file=f)
+		# 	print("Average Validation Loss", f_val_losses, file=f)
+		# 	print("Precision", f_precision, file=f)
+		# 	print("Recall", f_recall, file=f)
+		# 	print("F-Measure", f_fscore, file=f)
+		# 	print("", file=f)
 
 		print("------------ Day", days_predict, "• Timesteps", timesteps, "------------")
-		print("Average Acc", f_acc)
+		print("Average Acc {:.2f}".format(f_acc))
 		print("Average Train Loss", f_train_losses)
 		print("Average Validation Loss", f_val_losses)
 		print("Precision", f_precision)
@@ -223,8 +231,8 @@ def main():
 
 		plt.plot([z for z in range(2, 61, 2)], total_acc, label="Accuracy - Timesteps " + str(timesteps))
 
-	with open(result_filename, 'a') as f:
-		print(top_acc, top_acc_details, file=f)
+	# with open(result_filename, 'a') as f:
+	# 	print(top_acc, top_acc_details, file=f)
 
 	print(top_acc, top_acc_details)
 	plt.yticks([i for i in range(40, 81, 10)])

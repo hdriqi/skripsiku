@@ -8,14 +8,14 @@ from math import sqrt
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-# Global config variables
 feature_dimension = 14
 output_dimension = 2
 data_length = 1300
 batch_size = 128
-learning_rate = 0.01
 k_fold = KFold(n_splits=5, shuffle=True)
+learning_rate = 0.01
 epoch = 200
+opt_optimizer = 'adam'
 result_filename = 'mlp_result_' + str(epoch)
 
 class Model:
@@ -36,7 +36,14 @@ class Model:
 		losses = tf.nn.softmax_cross_entropy_with_logits_v2(labels=y, logits=logits)
 
 		self._cost =  tf.reduce_mean(losses)
-		self._optimize = tf.train.AdamOptimizer(learning_rate).minimize(self._cost)
+		if(opt_optimizer == "adam"):
+			self._optimize = tf.train.AdamOptimizer(learning_rate).minimize(self._cost)
+		elif(opt_optimizer == "adadelta"):
+			self._optimize = tf.train.AdadeltaOptimizer(learning_rate).minimize(self._cost)
+		elif(opt_optimizer == "rmsprop"):
+			self._optimize = tf.train.RMSPropOptimizer(learning_rate).minimize(self._cost)
+		else:
+			self._optimize = tf.train.GradientDescentOptimizer(learning_rate).minimize(self._cost)
 
 		self._recall = tf.metrics.recall(tf.argmax(y, 1), tf.argmax(prediction, 1))
 		self._precision = tf.metrics.precision(tf.argmax(y, 1), tf.argmax(prediction, 1))
@@ -61,7 +68,6 @@ class Model:
 	@property
 	def accuracy(self):
 		return self._accuracy
-
 
 def prepare_train_data(days_predict, timesteps):
 	df_norm = pd.read_csv("dataset-normalize.csv").drop('timestamp', axis=1).as_matrix()[1:]
@@ -161,15 +167,15 @@ def train_network(train_input, train_output, days_predict, timesteps, save=True)
 		f_recall = np.mean(total_val_recall)
 		f_fscore = 2*((f_precision*f_recall)/(f_precision+f_recall))
 
-		with open(result_filename, 'a') as f:
-			print("------------ Day", days_predict, "• Timesteps", timesteps, "------------", file=f)
-			print("Average Acc {:.2f}".format(f_acc), file=f)
-			print("Average Train Loss", f_train_losses, file=f)
-			print("Average Validation Loss", f_val_losses, file=f)
-			print("Precision", f_precision, file=f)
-			print("Recall", f_recall, file=f)
-			print("F-Measure", f_fscore, file=f)
-			print("", file=f)
+		# with open(result_filename, 'a') as f:
+		# 	print("------------ Day", days_predict, "• Timesteps", timesteps, "------------", file=f)
+		# 	print("Average Acc {:.2f}".format(f_acc), file=f)
+		# 	print("Average Train Loss", f_train_losses, file=f)
+		# 	print("Average Validation Loss", f_val_losses, file=f)
+		# 	print("Precision", f_precision, file=f)
+		# 	print("Recall", f_recall, file=f)
+		# 	print("F-Measure", f_fscore, file=f)
+		# 	print("", file=f)
 
 		print("------------ Day", days_predict, "• Timesteps", timesteps, "------------")
 		print("Average Acc {:.2f}".format(f_acc))
@@ -217,8 +223,8 @@ def main():
 			
 		plt.plot([z for z in range(2, 61, 2)], total_acc, label="Accuracy - Timesteps " + str(timesteps))
 
-	with open(result_filename, 'a') as f:
-		print(top_acc, top_acc_details, file=f)
+	# with open(result_filename, 'a') as f:
+	# 	print(top_acc, top_acc_details, file=f)
 
 	print(top_acc, top_acc_details)
 	plt.yticks([i for i in range(40, 91, 10)])

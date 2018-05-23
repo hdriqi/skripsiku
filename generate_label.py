@@ -13,6 +13,7 @@ with open(file_path) as f:
 	for row in read_file:
 		dt_obj = datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S").timetuple()
 		timestamp = int(time.mktime(dt_obj))
+		row[0] = timestamp
 		# Check if timestamp after August 2010
 		if timestamp > 1280509200:
 			original_file.append(row)
@@ -21,9 +22,7 @@ for i in range(1, 31):
 	file_name = str(i*2) + 'days' + '.csv'
 	temp = []
 	for j in range(len(original_file)):
-		# Convert to UNIX timestamp
-		dt_obj = datetime.strptime(original_file[j][0], "%Y-%m-%d %H:%M:%S").timetuple()
-		timestamp = int(time.mktime(dt_obj))
+		timestamp = original_file[j][0]
 		# Check if timestamp between August 2010 until October 2017
 		if timestamp > 1280509200 and timestamp < 1509469200:
 			label = [1, 0] if float(original_file[j][1]) > float(original_file[j+i][1]) + (float(original_file[j+i][1])*0.01) else [0, 1]
